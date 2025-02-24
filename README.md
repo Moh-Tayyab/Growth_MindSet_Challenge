@@ -34,7 +34,7 @@ A professional weather dashboard built with Streamlit that provides real-time we
 
 4. Run the application:
    ```bash
-   streamlit run app.py
+   streamlit run streamlit_app.py
    ```
 
 ## Project Structure 📁
