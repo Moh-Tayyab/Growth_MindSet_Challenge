@@ -18,8 +18,8 @@ A professional weather dashboard built with Streamlit that provides real-time we
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/weather-wizard.git
-   cd weather-wizard
+   git clone https://github.com/Moh-Tayyab/Growth_MindSet_Challenge/.git
+   cd Growth_MindSet_Challenge
    ```
 
 2. Install dependencies:
@@ -40,7 +40,7 @@ A professional weather dashboard built with Streamlit that provides real-time we
 ## Project Structure 📁
 
 ```
-weather-wizard/
+Growth_MindSet_Challenge/
 ├── app.py              # Main application file
 ├── config.py           # Configuration settings
 ├── ui_components.py    # UI components and layouts
@@ -107,9 +107,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact 📧
 
-Muhammad Tayyab - [your-email@example.com](mailto:your-email@example.com)
-
-Project Link: [https://github.com/your-github-username/weather-wizard](https://github.com/your-github-username/weather-wizard)
+Linkedin Profile: [https://www.linkedin.com/in/ch-muhammad-tayyab/]
 
 ---
 Made with ❤️ by Muhammad Tayyab
