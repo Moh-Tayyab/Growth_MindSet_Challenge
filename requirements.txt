@@ -8,7 +8,6 @@ streamlit-extras
 types-requests
 types-python-dateutil
 mypy
-types-plotly
 types-python-dotenv
 mypy-extensions
 pandas>=2.1.0
