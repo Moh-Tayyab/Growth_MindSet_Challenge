@@ -39,7 +39,7 @@ def setup_page_config():
                 border-radius: 8px; 
                 transition: all 0.3s ease; 
                 font-weight: 500;
-                padding: 0.5rem 1rem
+                padding: 0.5rem 1rem;
             }
             .stAlert {border-radius: 10px; padding: 1rem;}
             .metric-box {
