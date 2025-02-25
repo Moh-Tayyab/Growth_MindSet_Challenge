@@ -1,6 +1,3 @@
-[server]
-# The main app file
-mainModule = "streamlit_app.py"
 
 [theme]
 primaryColor = "#E694FF"
