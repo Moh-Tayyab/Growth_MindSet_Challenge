@@ -41,7 +41,7 @@ A professional weather dashboard built with Streamlit that provides real-time we
 
 ```
 Growth_MindSet_Challenge/
-├── app.py              # Main application file
+├── streamlit_app.py              # Main application file
 ├── config.py           # Configuration settings
 ├── ui_components.py    # UI components and layouts
 ├── weather_utils.py    # Weather data utilities
