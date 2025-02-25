@@ -48,6 +48,7 @@ Growth_MindSet_Challenge/
 ├── requirements.txt    # Project dependencies
 ├── .env               # Environment variables (not tracked)
 └── README.md          # Project documentation
+
 ```
 
 ## Technologies Used 💻
