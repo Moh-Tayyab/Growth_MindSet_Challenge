@@ -34,21 +34,23 @@ A professional weather dashboard built with Streamlit that provides real-time we
 
 4. Run the application:
    ```bash
-   streamlit run streamlit_app.py
+   streamlit run app.py
    ```
 
 ## Project Structure 📁
 
 ```
 Growth_MindSet_Challenge/
-├── streamlit_app.py              # Main application file
-├── config.py           # Configuration settings
-├── ui_components.py    # UI components and layouts
-├── weather_utils.py    # Weather data utilities
-├── requirements.txt    # Project dependencies
-├── .env               # Environment variables (not tracked)
-└── README.md          # Project documentation
-
+├── app.py             # Main Streamlit application file
+├── config.py          # Configuration settings (API keys, map defaults)
+├── ui_components.py   # UI rendering and layout components
+├── weather_utils.py   # Utilities for fetching and processing weather data
+├── requirements.txt   # List of Python dependencies
+├── .env              # Environment variables (git-ignored)
+├── .gitignore        # Git ignore file
+├── .streamlit/       # Streamlit configuration directory
+│   └── secrets.toml  # Secrets file for Streamlit Cloud (git-ignored)
+└── README.md         # Project documentation
 ```
 
 ## Technologies Used 💻
