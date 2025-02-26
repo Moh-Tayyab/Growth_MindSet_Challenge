@@ -1,3 +1,4 @@
+# app.py
 import streamlit as st
 import folium
 from streamlit_folium import folium_static
@@ -9,11 +10,13 @@ from weather_utils import get_weather_data, get_forecast_data
 from ui_components import setup_page_config, render_current_weather, render_map
 import os
 from dotenv import load_dotenv
+import streamlit as st
+api_key = st.secrets["openweather"]["OPENWEATHER_API_KEY"]
 
-# Force local/cloud environment parity
+# Load environment variables
 if os.path.exists('.streamlit/secrets.toml'):
     load_dotenv('.streamlit/secrets.toml')
-    
+
 OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
 assert OPENWEATHER_API_KEY, "API key must be set in .streamlit/secrets.toml"
 
@@ -69,7 +72,7 @@ def main():
         render_map()
 
 def process_forecast_data(api_response):
-    """Process raw API data into daily aggregated forecast"""
+    """Process raw API data into daily aggregated forecast."""
     daily_data = {}
     
     try:
@@ -92,10 +95,11 @@ def process_forecast_data(api_response):
             
             # Track weather conditions
             weather = item['weather'][0]
-            if weather['description'] in daily_data[date]['weather_counts']:
-                daily_data[date]['weather_counts'][weather['description']]['count'] += 1
+            weather_desc = weather['description']
+            if weather_desc in daily_data[date]['weather_counts']:
+                daily_data[date]['weather_counts'][weather_desc]['count'] += 1
             else:
-                daily_data[date]['weather_counts'][weather['description']] = {
+                daily_data[date]['weather_counts'][weather_desc] = {
                     'count': 1,
                     'icon': weather['icon']
                 }
@@ -103,16 +107,15 @@ def process_forecast_data(api_response):
         # Process aggregated data
         processed = []
         for date, data in daily_data.items():
-            # Get dominant weather condition
             dominant_weather = max(data['weather_counts'].items(), 
-                                key=lambda x: x[1]['count'])
+                                 key=lambda x: x[1]['count'])
             
             processed.append({
                 'date': date,
                 'max_temp': max(data['temps']),
                 'min_temp': min(data['temps']),
-                'avg_humidity': sum(data['humidity'])//len(data['humidity']),
-                'avg_wind': round(sum(data['wind_speed'])/len(data['wind_speed']), 1),
+                'avg_humidity': sum(data['humidity']) // len(data['humidity']),
+                'avg_wind': round(sum(data['wind_speed']) / len(data['wind_speed']), 1),
                 'weather': dominant_weather[0],
                 'icon': dominant_weather[1]['icon']
             })
@@ -124,7 +127,7 @@ def process_forecast_data(api_response):
         return []
 
 def display_forecast(forecast_data, unit_system):
-    """Display enhanced 5-day forecast with interactive elements"""
+    """Display enhanced 5-day forecast with interactive elements."""
     try:
         processed = process_forecast_data(forecast_data)
         if not processed:
@@ -138,10 +141,14 @@ def display_forecast(forecast_data, unit_system):
         df = pd.DataFrame(processed)
         df['date'] = pd.to_datetime(df['date']).dt.strftime('%a, %b %d')
         
-        fig = px.line(df, x='date', y=['max_temp', 'min_temp'], 
-                    title=f'5-Day Temperature Forecast ({temp_unit})',
-                    labels={'value': f'Temperature ({temp_unit})', 'variable': ''},
-                    template='plotly_dark')
+        fig = px.line(
+            df, 
+            x='date', 
+            y=['max_temp', 'min_temp'], 
+            title=f'5-Day Temperature Forecast ({temp_unit})',
+            labels={'value': f'Temperature ({temp_unit})', 'variable': 'Temp'},
+            template='plotly_dark'
+        )
         
         fig.update_layout(
             hovermode='x unified',
@@ -153,15 +160,15 @@ def display_forecast(forecast_data, unit_system):
         )
         fig.update_traces(
             line=dict(width=2.5),
-            selector=dict(name='max_temp'),
             line_color='#FFA500',  # Orange for max temps
-            name=''  # Ensure unique name for CSS
+            name='Max Temp',
+            selector=dict(name='max_temp')
         )
         fig.update_traces(
             line=dict(width=2.5),
-            selector=dict(name='min_temp'),
             line_color='#1E90FF',  # Dodger blue for min temps
-            name=''  # Ensure unique name for CSS
+            name='Min Temp',
+            selector=dict(name='min_temp')
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -170,23 +177,13 @@ def display_forecast(forecast_data, unit_system):
         cols = st.columns(5)
         for i, day in enumerate(processed):
             with cols[i]:
-                card = st.container()
-                with card:
-                    # Header with date
+                with st.container():
                     st.markdown(f"**{pd.to_datetime(day['date']).strftime('%a, %b %d')}**")
-                    
-                    # Weather icon and condition
-                    st.image(f"https://openweathermap.org/img/wn/{day['icon']}@2x.png", 
-                           width=80)
+                    st.image(f"https://openweathermap.org/img/wn/{day['icon']}@2x.png", width=80)
                     st.caption(day['weather'].capitalize())
-                    
-                    # Temperature metrics
                     st.metric("High", f"{day['max_temp']:.1f}{temp_unit}")
                     st.metric("Low", f"{day['min_temp']:.1f}{temp_unit}")
-                    
-                    # Additional info
-                    st.progress(day['avg_humidity']/100, 
-                              text=f"💧 Humidity: {day['avg_humidity']}%")
+                    st.progress(day['avg_humidity'] / 100, text=f"💧 Humidity: {day['avg_humidity']}%")
                     st.write(f"🌪️ Wind: {day['avg_wind']} {wind_unit}")
                     
     except Exception as e:

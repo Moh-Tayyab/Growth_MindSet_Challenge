@@ -1,19 +1,10 @@
-# requirements.txt
-folium>=0.14.0
-streamlit-folium>=0.15.0
-requests>=2.31.0
-plotly>=5.18.0
-streamlit-extras
-types-requests
-types-python-dateutil
+dotenv
+folium
 mypy
-mypy-extensions
-pandas-stubs
-streamlit==1.42.2
-tomli==2.2.1  # Explicit replacement for cloud environment
-python-dotenv==1.0.1
-requests==2.32.3
-pandas==2.2.3
-numpy==2.2.3
-folium==0.19.4
-
+pandas
+streamlit
+streamlit_folium
+numpy
+plotly.express
+plotly
+requests

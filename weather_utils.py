@@ -1,40 +1,46 @@
-from typing import Dict, Any, Optional
+# weather_utils.py
 import requests
-import streamlit as st
-from datetime import datetime
-import config
+import os
+from dotenv import load_dotenv
 
-@st.cache_data(ttl=300)  # Cache for 5 minutes
-def get_weather_data(city: str, units: str = "metric") -> Optional[Dict[str, Any]]:
-    """Get current weather data for a city"""
-    try:
-        response = requests.get(
-            f"{config.BASE_URL}/weather",
-            params={
-                "q": city,
-                "units": units,
-                "appid": config.OPENWEATHER_API_KEY
-            }
-        )
-        response.raise_for_status()
-        return response.json()
-    except Exception as e:
-        st.error(f"Error fetching weather data: {str(e)}")
-        return None
+# Load environment variables
+if os.path.exists('.streamlit/secrets.toml'):
+    load_dotenv('.streamlit/secrets.toml')
 
-@st.cache_data(ttl=300)
-def get_forecast_data(city, units="metric"):
-    """Fetch 5-day forecast data for a given city"""
-    try:
-        url = f"{config.BASE_URL}/forecast"
-        params = {
-            "q": city,
-            "appid": config.OPENWEATHER_API_KEY,
-            "units": units
-        }
-        response = requests.get(url, params=params)
-        response.raise_for_status()
+OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
+
+def get_weather_data(city, unit_system='metric'):
+    """Fetch current weather data for a given city."""
+    if not OPENWEATHER_API_KEY:
+        raise ValueError("API key is not set")
+    
+    base_url = "https://api.openweathermap.org/data/2.5/weather"
+    params = {
+        'q': city,
+        'appid': OPENWEATHER_API_KEY,
+        'units': unit_system
+    }
+    
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
         return response.json()
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error fetching forecast data: {str(e)}")
-        return None 
+    else:
+        raise ValueError(f"Could not fetch weather data for {city}: {response.status_code}")
+
+def get_forecast_data(city, unit_system='metric'):
+    """Fetch 5-day forecast data for a given city."""
+    if not OPENWEATHER_API_KEY:
+        raise ValueError("API key is not set")
+    
+    base_url = "https://api.openweathermap.org/data/2.5/forecast"
+    params = {
+        'q': city,
+        'appid': OPENWEATHER_API_KEY,
+        'units': unit_system
+    }
+    
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise ValueError(f"Could not fetch forecast data for {city}: {response.status_code}")
