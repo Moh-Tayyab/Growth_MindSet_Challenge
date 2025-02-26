@@ -146,7 +146,7 @@ def display_forecast(forecast_data, unit_system):
             x='date', 
             y=['max_temp', 'min_temp'], 
             title=f'5-Day Temperature Forecast ({temp_unit})',
-            labels={'value': f'Temperature ({temp_unit})', 'variable': 'Temp'},
+            labels={'value': f'Temperature ({temp_unit})', 'variable': ''},
             template='plotly_dark'
         )
         
@@ -161,13 +161,13 @@ def display_forecast(forecast_data, unit_system):
         fig.update_traces(
             line=dict(width=2.5),
             line_color='#FFA500',  # Orange for max temps
-            name='Max Temp',
+            name='',
             selector=dict(name='max_temp')
         )
         fig.update_traces(
             line=dict(width=2.5),
             line_color='#1E90FF',  # Dodger blue for min temps
-            name='Min Temp',
+            name='',
             selector=dict(name='min_temp')
         )
         st.plotly_chart(fig, use_container_width=True)
