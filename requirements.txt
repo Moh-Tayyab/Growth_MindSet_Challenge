@@ -1,8 +1,10 @@
-streamlit>=1.28.0
+# requirements.txt
+streamlit>=1.42.2
+python-dotenv>=1.0.1
+tomli>=2.0.1  # Modern replacement for outdated 'toml' package
 folium>=0.14.0
 streamlit-folium>=0.15.0
 requests>=2.31.0
-python-dotenv>=1.0.0
 plotly>=5.18.0
 streamlit-extras
 types-requests
