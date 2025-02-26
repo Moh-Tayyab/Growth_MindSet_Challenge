@@ -11,3 +11,4 @@ mypy
 mypy-extensions
 pandas>=2.1.0
 pandas-stubs
+
