@@ -7,3 +7,6 @@ __pycache__/
 *.bak
 *.tmp
 
+# Streamlit
+.streamlit/
+.streamlit/secrets.toml
