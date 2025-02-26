@@ -7,6 +7,15 @@ import plotly.express as px
 import pandas as pd
 from weather_utils import get_weather_data, get_forecast_data
 from ui_components import setup_page_config, render_current_weather, render_map
+import os
+from dotenv import load_dotenv
+
+# Force local/cloud environment parity
+if os.path.exists('.streamlit/secrets.toml'):
+    load_dotenv('.streamlit/secrets.toml')
+    
+OPENWEATHER_API_KEY = os.getenv('OPENWEATHER_API_KEY')
+assert OPENWEATHER_API_KEY, "API key must be set in .streamlit/secrets.toml"
 
 def main():
     # Setup page configuration and theme
